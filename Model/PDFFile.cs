@@ -62,8 +62,8 @@ namespace TemplateFromPDF.Model
                 if (fieldEndOfHeaderIndex == -1)
                     continue;
 
-                string fieldKey = fieldBlock.Substring(0, fieldEndOfHeaderIndex);
-                string fieldValue = fieldBlock.Substring(fieldEndOfHeaderIndex + 1);
+                string fieldKey = fieldBlock.Substring(0, fieldEndOfHeaderIndex).Trim();
+                string fieldValue = fieldBlock.Substring(fieldEndOfHeaderIndex + 1).Trim();
                 // TODO решить, убирать newline-ы в значении поля, или нет
 
                 if (string.IsNullOrEmpty(fieldKey) || string.IsNullOrEmpty(fieldValue))
