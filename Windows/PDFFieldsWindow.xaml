@@ -1,0 +1,38 @@
+﻿<Window x:Class="TemplateFromPDF.Windows.PDFFieldsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TemplateFromPDF.Windows"
+        mc:Ignorable="d"
+        Title="Редактирование извлечённых данных" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Извлечённые данные" 
+                   Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <DataGrid x:Name="PDFFilesFieldsDataGrid" AutoGenerateColumns="False"
+            Grid.Row="1"
+            AlternatingRowBackground="#FFA0DC68" AlternationCount="1"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="BackToFileLoadButton" Content="Назад" Click="BackToFileLoadButton_Click"
+                    Grid.Column="0"/>
+            <Button x:Name="SaveNewPDFsToFolderButton" Content="Сохранить в папку" Click="SaveNewPDFsToFolderButton_Click"
+                    Grid.Column="1"
+                    Style="{StaticResource NextButton}"/>
+            
+        </Grid>
+    </Grid>
+</Window>
