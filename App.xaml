@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:TemplateFromPDF"
              StartupUri="Windows/FileLoadWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Button}">
+                <Style.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
