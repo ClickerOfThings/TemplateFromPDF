@@ -18,12 +18,18 @@ namespace TemplateFromPDF.Model
         public Dictionary<string, string> Fields { get; set; }
 
         /// <summary>
+        /// Путь к файлу, из которого были извлечены поля
+        /// </summary>
+        public string FilePath { get; private set; }
+
+        /// <summary>
         /// Конструктор экземпляра PDFFile и заполнение словаря <see cref="Fields"/> напрямую из файла
         /// </summary>
         /// <param name="fileName">Путь к PDF файлу</param>
         public PDFFile(string fileName)
         {
             Fields = new Dictionary<string, string>();
+            FilePath = fileName;
 
             PdfDocument docToParse;
             StringBuilder allTextFromPdf = new StringBuilder();
