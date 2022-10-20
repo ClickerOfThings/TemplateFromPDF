@@ -24,7 +24,7 @@ namespace TemplateFromPDF.Windows
     /// </summary>
     public partial class FileLoadWindow : Window
     {
-        public ObservableCollection<string> pdfFilesPaths { get; set; }
+        public ObservableCollection<string> PDFFilesPaths { get; set; }
             = new ObservableCollection<string>();
 
         public FileLoadWindow()
@@ -53,8 +53,8 @@ namespace TemplateFromPDF.Windows
                     return;
 
                 foreach(string selectedFile in selectedFiles)
-                    if (!pdfFilesPaths.Contains(selectedFile))
-                        pdfFilesPaths.Add(selectedFile);
+                    if (!PDFFilesPaths.Contains(selectedFile))
+                        PDFFilesPaths.Add(selectedFile);
             }
         }
 
@@ -62,19 +62,19 @@ namespace TemplateFromPDF.Windows
         {
             var selectedPDFFiles = new List<string>(PDFFilesListBox.SelectedItems.Cast<string>());
             foreach (string selectedFile in selectedPDFFiles)
-                pdfFilesPaths.Remove(selectedFile);
+                PDFFilesPaths.Remove(selectedFile);
         }
 
         private void ProcessPDFFilesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (pdfFilesPaths.Count == 0)
+            if (PDFFilesPaths.Count == 0)
             {
                 MessageBox.Show("Не выбраны PDF файлы для обработки. Выберите хотя бы 1 файл", "Не выбраны файлы",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            PDFFieldsWindow fieldsWindow = new PDFFieldsWindow(pdfFilesPaths.ToArray());
+            PDFFieldsWindow fieldsWindow = new PDFFieldsWindow(PDFFilesPaths.ToArray());
 
             this.Hide();
             fieldsWindow.ShowDialog();
