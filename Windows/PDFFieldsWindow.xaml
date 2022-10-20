@@ -17,7 +17,7 @@
         <TextBlock Text="Извлечённые данные" 
                    Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <DataGrid x:Name="PDFFilesFieldsDataGrid" AutoGenerateColumns="False"
+        <DataGrid x:Name="PDFFilesFieldsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False"
             Grid.Row="1"
             AlternatingRowBackground="#FFA0DC68" AlternationCount="1"/>
 
