@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Converters;
 using iText.Forms.Xfdf;
 using iText.IO.Font;
@@ -23,6 +24,8 @@ namespace TemplateFromPDF.Model
     /// </summary>
     public class PDFFile
     {
+        private const string DEFAULT_FONT = "/Fonts/FreeSans-LrmZ.ttf";
+
         /// <summary>
         /// Словарь полей, полученных из PDF файла
         /// </summary>
@@ -109,7 +112,14 @@ namespace TemplateFromPDF.Model
                     .MoveRight(marginRightAndLeft / 2);
                 Canvas canvas = new Canvas(pdfCanvas, rectangle);
 
-                PdfFont fontUnicode = PdfFontFactory.CreateFont("FreeSans-LrmZ.ttf", PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+                System.Windows.Resources.StreamResourceInfo fontStreamInfo = 
+                    Application.GetResourceStream(new Uri(DEFAULT_FONT, UriKind.Relative));
+                System.IO.Stream fontStream = fontStreamInfo.Stream;
+
+                byte[] fontBytes = new byte[fontStream.Length];
+                fontStream.Read(fontBytes, 0, fontBytes.Length);
+
+                PdfFont fontUnicode = PdfFontFactory.CreateFont(fontBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
 
                 foreach (ParagraphWrap paragraph in paragraphsToWrite)
                 {

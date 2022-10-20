@@ -12,4 +12,7 @@
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Fonts\FreeSans-LrmZ.ttf" />
+  </ItemGroup>
 </Project>
