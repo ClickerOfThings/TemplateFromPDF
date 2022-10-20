@@ -69,5 +69,15 @@ namespace TemplateFromPDF.Model
                 Fields.Add(fieldKey, fieldValue);
             }
         }
+
+        public static List<PDFFile> ParsePDFFiles(string[] pdfFilesPaths)
+        {
+            List<PDFFile> parsedPDFFiles = new List<PDFFile>();
+            foreach (string pdfFilePath in pdfFilesPaths)
+            {
+                parsedPDFFiles.Add(new PDFFile(pdfFilePath));
+            }
+            return parsedPDFFiles;
+        }
     }
 }
