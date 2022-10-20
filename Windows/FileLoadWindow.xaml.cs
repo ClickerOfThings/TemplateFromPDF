@@ -44,9 +44,7 @@ namespace TemplateFromPDF.Windows
             openPDFDialog.Filter = "PDF файлы (.pdf)|*.pdf";
             openPDFDialog.Multiselect = true;
 
-            bool? result = openPDFDialog.ShowDialog();
-
-            if (result is true)
+            if (openPDFDialog.ShowDialog() is true)
             {
                 string[] selectedFiles = openPDFDialog.FileNames;
                 if (selectedFiles.Length == 0)
