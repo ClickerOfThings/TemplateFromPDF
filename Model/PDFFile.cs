@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Converters;
 using iText.Forms.Xfdf;
+using iText.IO.Font;
+using iText.IO.Image;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Xobject;
+using iText.Layout;
+using iText.Layout.Element;
 using Org.BouncyCastle.Asn1;
 
 namespace TemplateFromPDF.Model
 {
+    /// <summary>
+    /// Класс PDF файла с извлечёнными полями
+    /// </summary>
     public class PDFFile
     {
         /// <summary>
@@ -70,6 +81,66 @@ namespace TemplateFromPDF.Model
             }
         }
 
+        /// <summary>
+        /// Сохранение извлечённых полей в новый PDF файл
+        /// </summary>
+        /// <param name="imageTemplatePath">Путь к изображению, поверх которого будет наложен текст</param>
+        /// <param name="marginTop">Отступ начала текста от верхнего края документа</param>
+        /// <param name="marginRightAndLeft">Отступы от левого и правого краёв документа, ограничивает ширину текста</param>
+        /// <param name="paragraphsToWrite">Массив объектов <see cref="ParagraphWrap"/> для описания стиля параграфа текста</param>
+        /// <param name="outputFileName">Выходное название файла</param>
+        public void SaveFieldsToTemplate(string imageTemplatePath,
+                                         float marginTop, float marginRightAndLeft,
+                                         ParagraphWrap[] paragraphsToWrite,
+                                         string outputFileName)
+        {
+            using (PdfWriter pdfWriter = new PdfWriter(outputFileName))
+            using (PdfDocument resultDoc = new PdfDocument(pdfWriter))
+            {
+                Document docToWrite = new Document(resultDoc);
+                ImageData templateImgData = ImageDataFactory.Create(imageTemplatePath);
+                Image templateImage = new Image(templateImgData);
+                docToWrite.Add(templateImage);
+
+                PdfCanvas pdfCanvas = new PdfCanvas(resultDoc.GetFirstPage());
+                var rectangle = resultDoc.GetFirstPage().GetPageSize();
+                rectangle.DecreaseHeight(marginTop)
+                    .DecreaseWidth(marginRightAndLeft)
+                    .MoveRight(marginRightAndLeft / 2);
+                Canvas canvas = new Canvas(pdfCanvas, rectangle);
+
+                PdfFont fontUnicode = PdfFontFactory.CreateFont("FreeSans-LrmZ.ttf", PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+
+                foreach (ParagraphWrap paragraph in paragraphsToWrite)
+                {
+                    if (string.IsNullOrEmpty(paragraph.DirectText) && !Fields.ContainsKey(paragraph.FieldKey))
+                        continue;
+
+                    string textToWrite = string.IsNullOrEmpty(paragraph.DirectText)
+                        ? Fields[paragraph.FieldKey]
+                        : paragraph.DirectText;
+
+                    Paragraph templateFieldText = new Paragraph(textToWrite);
+                    templateFieldText.SetFont(fontUnicode)
+                        .SetFontSize(paragraph.FontSize)
+                        .SetFontColor(paragraph.Color)
+                        .SetMultipliedLeading(paragraph.AfterSpacingMultiplier);
+                    if (paragraph.IsBold)
+                        templateFieldText.SetBold();
+                    templateFieldText.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+
+                    canvas.Add(templateFieldText);
+                }
+                canvas.Close();
+                docToWrite.Close();
+            }
+        }
+
+        /// <summary>
+        /// Создание нескольких экзепляров <see cref="PDFFile"/> из массива строк с путями
+        /// </summary>
+        /// <param name="pdfFilesPaths">Массив строк с путями PDF файлов</param>
+        /// <returns>Список созданных экземпляров <see cref="PDFFile"/></returns>
         public static List<PDFFile> ParsePDFFiles(string[] pdfFilesPaths)
         {
             List<PDFFile> parsedPDFFiles = new List<PDFFile>();

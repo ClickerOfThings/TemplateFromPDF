@@ -9,6 +9,7 @@ using TemplateFromPDF.Model;
 
 namespace TemplateFromPDF.Model.Helper
 {
+    // TODO документация
     internal static class PDFFileColumnGenerator
     {
         public static List<DataGridTextColumn> GenerateColumnsFromPDFFiles(IEnumerable<PDFFile> pdfFilesToUse)

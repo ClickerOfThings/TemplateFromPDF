@@ -29,7 +29,7 @@
 
             <Button x:Name="BackToFileLoadButton" Content="Назад" Click="BackToFileLoadButton_Click"
                     Grid.Column="0"/>
-            <Button x:Name="SaveNewPDFsToFolderButton" Content="Сохранить в папку" Click="SaveNewPDFsToFolderButton_Click"
+            <Button x:Name="SaveNewPDFsToFolderButton" Content="Далее" Click="SaveNewPDFsToFolderButton_Click"
                     Grid.Column="1"
                     Style="{StaticResource NextButton}"/>
             

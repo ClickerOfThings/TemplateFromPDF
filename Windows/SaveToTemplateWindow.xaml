@@ -1,0 +1,51 @@
+﻿<Window x:Class="TemplateFromPDF.Windows.SaveToTemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TemplateFromPDF.Windows"
+        mc:Ignorable="d"
+        Title="Настройка шаблона" Width="400" SizeToContent="Height"
+        ResizeMode="NoResize">
+    <Grid Margin="5 5 5 5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <TextBlock Text="Путь к папке, куда сохранятся шаблоны"
+                       DockPanel.Dock="Top"/>
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                <Button x:Name="BrowseSaveFolderButton" Content="..."
+                        Click="BrowseSaveFolderButton_Click"
+                        DockPanel.Dock="Right"
+                        Margin="0" MinWidth="20">
+                    <Button.Resources>
+                        <Style TargetType="Border"/>
+                        <!-- Сбрасывает глобальный стиль закруглённой кнопки -->
+                    </Button.Resources>
+                </Button>
+                <TextBox x:Name="SaveFolderPathTextBox"
+                     DockPanel.Dock="Left"/>
+            </DockPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <TextBlock Text="Базовое название файлов"/>
+            <TextBox x:Name="TemplateBaseNameTextBox" TextChanged="TemplateBaseNameTextBox_TextChanged"/>
+            <TextBlock x:Name="TemplateNameExampleTextBlock" TextWrapping="WrapWithOverflow"
+                       Text="Файлы шаблонов будут названы: "
+                       Foreground="Gray"/>
+        </StackPanel>
+
+        <DockPanel LastChildFill="False" Grid.Row="2">
+            <Button x:Name="BackToPDFFieldsButton" Content="Назад" Click="BackToPDFFieldsButton_Click"
+                    DockPanel.Dock="Left" Width="150" MinHeight="50"/>
+            <Button x:Name="SaveToTemplatesButton" Content="Создать файлы" Click="SaveToTemplatesButton_Click"
+                    DockPanel.Dock="Right" Width="150" MinHeight="50"
+                    Style="{StaticResource NextButton}"/>
+        </DockPanel>
+    </Grid>
+</Window>

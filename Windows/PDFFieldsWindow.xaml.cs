@@ -36,14 +36,13 @@ namespace TemplateFromPDF.Windows
             fieldsList.AddRange(pdfFilesList.Select(x => x.Fields));
         }
         
-        // TODO организовать создание словарей и колонок в отдельный файл/класс
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             List<DataGridTextColumn> columnsOfPDFHeaders = Model.Helper.PDFFileColumnGenerator.GenerateColumnsFromPDFFiles(pdfFilesList);
             foreach(DataGridTextColumn column in columnsOfPDFHeaders)
             {
                 PDFFilesFieldsDataGrid.Columns.Add(column);
-                }
+            }
 
             PDFFilesFieldsDataGrid.ItemsSource = fieldsList;
         }
@@ -60,17 +59,9 @@ namespace TemplateFromPDF.Windows
 
         private void SaveNewPDFsToFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog folderChooseDialog = new CommonOpenFileDialog();
-            folderChooseDialog.IsFolderPicker = true;
-            folderChooseDialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
+            SaveToTemplateWindow saveToTemplateWin = new SaveToTemplateWindow(pdfFilesList);
 
-            if (folderChooseDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                // TODO вставить сохранение в шаблон
-                if (MessageBox.Show($"Файлы сохранены в папку {folderChooseDialog.FileName}. Продолжить редактирование полей?",
-                    "Успешно сохранено", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
-                    this.Close();
-            }
+            saveToTemplateWin.ShowDialog();
         }
     }
 }
