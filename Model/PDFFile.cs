@@ -10,7 +10,7 @@ using Org.BouncyCastle.Asn1;
 
 namespace TemplateFromPDF.Model
 {
-    internal class PDFFile
+    public class PDFFile
     {
         /// <summary>
         /// Словарь полей, полученных из PDF файла
