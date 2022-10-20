@@ -25,43 +25,25 @@ namespace TemplateFromPDF.Windows
     /// </summary>
     public partial class PDFFieldsWindow : Window
     {
-        private readonly string[] pdfFilesPaths;
+        private readonly List<PDFFile> pdfFilesList;
         private readonly List<Dictionary<string, string>> fieldsList = new List<Dictionary<string, string>>();
 
-        public PDFFieldsWindow(string[] pdfFilesPaths)
+        public PDFFieldsWindow(List<PDFFile> pdfFilesList)
         {
             InitializeComponent();
 
-            this.pdfFilesPaths = pdfFilesPaths;
+            this.pdfFilesList = pdfFilesList;
+            fieldsList.AddRange(pdfFilesList.Select(x => x.Fields));
         }
         
         // TODO организовать создание словарей и колонок в отдельный файл/класс
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach(string pdfFilePath in pdfFilesPaths)
+            List<DataGridTextColumn> columnsOfPDFHeaders = Model.Helper.PDFFileColumnGenerator.GenerateColumnsFromPDFFiles(pdfFilesList);
+            foreach(DataGridTextColumn column in columnsOfPDFHeaders)
             {
-                PDFFile currentPDFFile = PDFFile.LoadFromFile(pdfFilePath);
-
-                fieldsList.Add(currentPDFFile.Fields);
-            }
-
-            var columns = new List<DataGridTextColumn>();
-            foreach (Dictionary<string, string> dict in fieldsList)
-            {
-                foreach(string key in dict.Keys)
-                {
-                    if (columns.Any(x => (string)x.Header == key))
-                        continue;
-                    DataGridTextColumn column = new DataGridTextColumn();
-                    column.Header = key;
-                    column.Binding = new Binding($"[{key}]");
-                    columns.Add(column);
+                PDFFilesFieldsDataGrid.Columns.Add(column);
                 }
-            }
-            foreach(DataGridTextColumn col in columns)
-            {
-                PDFFilesFieldsDataGrid.Columns.Add(col);
-            }
 
             PDFFilesFieldsDataGrid.ItemsSource = fieldsList;
         }

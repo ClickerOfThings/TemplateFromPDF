@@ -72,7 +72,18 @@ namespace TemplateFromPDF.Windows
                 return;
             }
 
-            PDFFieldsWindow fieldsWindow = new PDFFieldsWindow(PDFFilesPaths.ToArray());
+            List<PDFFile> parsedPDFFiles = PDFFile.ParsePDFFiles(PDFFilesPaths.ToArray());
+
+            PDFFile? failedParsedPDF = parsedPDFFiles.FirstOrDefault(x => x.Fields.Count == 0);
+            if (failedParsedPDF is not null)
+            {
+                MessageBox.Show($"Не удалось извлечь поля из файла {failedParsedPDF.FilePath}. " +
+                    $"Проверьте файл на наличие ошибок.", "Ошибка извлечения данных",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            PDFFieldsWindow fieldsWindow = new PDFFieldsWindow(parsedPDFFiles);
 
             this.Hide();
             fieldsWindow.ShowDialog();
