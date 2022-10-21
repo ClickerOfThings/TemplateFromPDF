@@ -1,18 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<Configurations>Debug;Release;DebugWithBasename;ReleaseWithBasename</Configurations>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="itext7" Version="7.2.3" />
-    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWithBasename|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE;BASENAME;DEBUG</DefineConstants>
+		<XamlDebuggingInformation>True</XamlDebuggingInformation>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Resource Include="Fonts\FreeSans-LrmZ.ttf" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithBasename|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE;BASENAME</DefineConstants>
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="itext7" Version="7.2.3" />
+		<PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Fonts\FreeSans-LrmZ.ttf" />
+	</ItemGroup>
 </Project>

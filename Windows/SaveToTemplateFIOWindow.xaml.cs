@@ -19,11 +19,9 @@ namespace TemplateFromPDF.Windows
     /// <summary>
     /// Interaction logic for SaveToTemplateWindow.xaml
     /// </summary>
-    public partial class SaveToTemplateWindow : Window
+    public partial class SaveToTemplateFIOWindow : Window
     {
-        private readonly string templateExampleBaseText;
         private readonly List<PDFFile> pdfFilesToSave;
-        private const int MAX_EXAMPLE_FILENAME_LENGTH = 30;
 
         private static readonly iText.Kernel.Colors.Color DEFAULT_COLOR = new iText.Kernel.Colors.DeviceRgb(138, 83, 10);
         private static readonly ParagraphWrap[] DEFAULT_PARAGRAPH_WRAPS = new ParagraphWrap[]
@@ -40,14 +38,11 @@ namespace TemplateFromPDF.Windows
         private const float DEFAULT_TOP_MARGIN = 220f;
         private const float DEFAULT_SIDES_MARGIN = 250f;
 
-
-        public SaveToTemplateWindow(List<PDFFile> pdfFilesToSave)
+        public SaveToTemplateFIOWindow(List<PDFFile> pdfFilesToSave)
         {
             InitializeComponent();
 
             this.pdfFilesToSave = pdfFilesToSave;
-            
-            templateExampleBaseText = TemplateNameExampleTextBlock.Text;
         }
 
         private void BackToPDFFieldsButton_Click(object sender, RoutedEventArgs e)
@@ -57,12 +52,11 @@ namespace TemplateFromPDF.Windows
 
         private void SaveToTemplatesButton_Click(object sender, RoutedEventArgs e)
         {
-            string folderPath = SaveFolderPathTextBox.Text.Trim(),
-                   baseFilename = TemplateBaseNameTextBox.Text.Trim();
+            string folderPath = SaveFolderPathTextBox.Text.Trim();
 
-            if (string.IsNullOrEmpty(folderPath) || string.IsNullOrEmpty(baseFilename))
+            if (string.IsNullOrEmpty(folderPath))
             {
-                MessageBox.Show("Путь к папке и/или базовое название файлов не введены. Введите оба значения.",
+                MessageBox.Show("Не введен путь к папке.",
                     "Ошибка создания", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -70,11 +64,10 @@ namespace TemplateFromPDF.Windows
             int fileCounter = 0;
             foreach (PDFFile file in pdfFilesToSave)
             {
-
                 file.SaveFieldsToTemplate(DEFAULT_TEMPLATE_IMAGE_FILENAME,
                     DEFAULT_TOP_MARGIN, DEFAULT_SIDES_MARGIN,
                     DEFAULT_PARAGRAPH_WRAPS,
-                    $"{folderPath}/{baseFilename}-{fileCounter++}.pdf");
+                    $"{folderPath}/{file.Fields["Фамилия Имя Отчество"]}-{fileCounter++}.pdf");
             }
 
             MessageBox.Show("Файлы успешно созданы.", "Созданы файлы",
@@ -91,14 +84,6 @@ namespace TemplateFromPDF.Windows
 
             if (folderChooseDialog.ShowDialog() == CommonFileDialogResult.Ok)
                 SaveFolderPathTextBox.Text = folderChooseDialog.FileName;
-        }
-
-        private void TemplateBaseNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string templateBaseFileName = TemplateBaseNameTextBox.Text;
-            if (templateBaseFileName.Length > MAX_EXAMPLE_FILENAME_LENGTH)
-                templateBaseFileName = templateBaseFileName.Substring(0, MAX_EXAMPLE_FILENAME_LENGTH) + "...";
-            TemplateNameExampleTextBlock.Text = templateExampleBaseText + $"{templateBaseFileName}-1.pdf, {templateBaseFileName}-2.pdf, ...";
         }
     }
 }

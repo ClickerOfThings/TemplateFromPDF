@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Converters;
@@ -9,6 +10,7 @@ using iText.Forms.Xfdf;
 using iText.IO.Font;
 using iText.IO.Image;
 using iText.Kernel.Font;
+using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Canvas.Parser;
@@ -100,9 +102,14 @@ namespace TemplateFromPDF.Model
             using (PdfWriter pdfWriter = new PdfWriter(outputFileName))
             using (PdfDocument resultDoc = new PdfDocument(pdfWriter))
             {
-                Document docToWrite = new Document(resultDoc);
+
+                Document docToWrite = new Document(resultDoc, PageSize.A4);
+                docToWrite.SetMargins(0, 0, 0, 0);
+
                 ImageData templateImgData = ImageDataFactory.Create(imageTemplatePath);
                 Image templateImage = new Image(templateImgData);
+                templateImage.ScaleToFit(PageSize.A4.GetWidth(), PageSize.A4.GetHeight());
+
                 docToWrite.Add(templateImage);
 
                 PdfCanvas pdfCanvas = new PdfCanvas(resultDoc.GetFirstPage());
@@ -123,12 +130,16 @@ namespace TemplateFromPDF.Model
 
                 foreach (ParagraphWrap paragraph in paragraphsToWrite)
                 {
-                    if (string.IsNullOrEmpty(paragraph.DirectText) && !Fields.ContainsKey(paragraph.FieldKey))
-                        continue;
-
-                    string textToWrite = string.IsNullOrEmpty(paragraph.DirectText)
-                        ? Fields[paragraph.FieldKey]
-                        : paragraph.DirectText;
+                    StringBuilder fieldsInsertedStringBuilder = new StringBuilder(paragraph.TextWithFieldsFormatted);
+                    MatchCollection fieldsMatches =
+                        Regex.Matches(paragraph.TextWithFieldsFormatted, @"{.+?}");
+                    foreach (Match fieldMatch in fieldsMatches)
+                    {
+                        string fieldHeader = fieldMatch.Value.Substring(1, fieldMatch.Value.Length - 2);
+                        if (Fields.ContainsKey(fieldHeader))
+                            fieldsInsertedStringBuilder.Replace(fieldMatch.Value, Fields[fieldHeader]);
+                    }
+                    string textToWrite = fieldsInsertedStringBuilder.ToString();
 
                     Paragraph templateFieldText = new Paragraph(textToWrite);
                     templateFieldText.SetFont(fontUnicode)

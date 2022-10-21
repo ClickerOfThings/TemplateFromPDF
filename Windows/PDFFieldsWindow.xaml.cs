@@ -59,9 +59,15 @@ namespace TemplateFromPDF.Windows
 
         private void SaveNewPDFsToFolderButton_Click(object sender, RoutedEventArgs e)
         {
+#if BASENAME
             SaveToTemplateWindow saveToTemplateWin = new SaveToTemplateWindow(pdfFilesList);
 
             saveToTemplateWin.ShowDialog();
+#else
+            SaveToTemplateFIOWindow saveToTemplateWin = new SaveToTemplateFIOWindow(pdfFilesList);
+
+            saveToTemplateWin.ShowDialog();
+#endif
         }
     }
 }

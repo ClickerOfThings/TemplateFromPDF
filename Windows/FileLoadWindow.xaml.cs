@@ -51,7 +51,7 @@ namespace TemplateFromPDF.Windows
                 if (selectedFiles.Length == 0)
                     return;
 
-                foreach(string selectedFile in selectedFiles)
+                foreach (string selectedFile in selectedFiles)
                     if (!PDFFilesPaths.Contains(selectedFile))
                         PDFFilesPaths.Add(selectedFile);
             }
