@@ -19,7 +19,7 @@
 
         <DataGrid x:Name="PDFFilesFieldsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False"
             Grid.Row="1"
-            AlternatingRowBackground="#FFA0DC68" AlternationCount="1"/>
+            AlternatingRowBackground="#eafceb" AlternationCount="1"/>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
