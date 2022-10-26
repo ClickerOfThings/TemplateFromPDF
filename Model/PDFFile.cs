@@ -46,7 +46,7 @@ namespace TemplateFromPDF.Model
         /// <summary>
         /// Словарь полей, полученных из PDF файла
         /// </summary>
-        public Dictionary<string, string> Fields { get; set; }
+        public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Путь к файлу, из которого были извлечены поля
@@ -59,8 +59,10 @@ namespace TemplateFromPDF.Model
         /// <param name="fileName">Путь к PDF файлу</param>
         public PDFFile(string fileName)
         {
-            Fields = new Dictionary<string, string>();
             FilePath = fileName;
+
+            if (!System.IO.File.Exists(FilePath))
+                return;
 
             PdfDocument docToParse;
             StringBuilder allTextFromPdf = new StringBuilder();
