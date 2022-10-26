@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TemplateFromPDF"
         mc:Ignorable="d"
         Title="Загрузка PDF файлов" Height="450" Width="800"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded" Icon="/Images/app_icon.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

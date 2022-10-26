@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TemplateFromPDF.Windows"
         mc:Ignorable="d"
         Title="Настройка шаблона" Width="400" SizeToContent="Height"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Icon="/Images/app_icon.ico">
     <Grid Margin="5 5 5 5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

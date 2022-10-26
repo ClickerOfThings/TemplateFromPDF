@@ -11,20 +11,30 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWithBasename|AnyCPU'">
 		<DefineConstants>$(DefineConstants)TRACE;BASENAME;DEBUG</DefineConstants>
 		<XamlDebuggingInformation>True</XamlDebuggingInformation>
+		<DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+		<DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DefineConstants>$(DefineConstants)TRACE</DefineConstants>
+		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithBasename|AnyCPU'">
 		<DefineConstants>$(DefineConstants)TRACE;BASENAME</DefineConstants>
 		<Optimize>True</Optimize>
+		<DebugType>embedded</DebugType>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Images\certificate.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="itext7" Version="7.2.3" />
@@ -33,11 +43,6 @@
 
 	<ItemGroup>
 		<Resource Include="Fonts\FreeSans-LrmZ.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Images\certificate.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<Resource Include="Images\app_icon.ico" />
 	</ItemGroup>
 </Project>
