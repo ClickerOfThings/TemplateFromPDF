@@ -34,4 +34,10 @@
 	<ItemGroup>
 		<Resource Include="Fonts\FreeSans-LrmZ.ttf" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Images\certificate.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>
