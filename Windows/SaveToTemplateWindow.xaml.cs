@@ -102,6 +102,7 @@ namespace TemplateFromPDF.Windows
             OpenFileDialog openImgDialog = new OpenFileDialog();
             openImgDialog.Filter = "Файлы изображений (.png;.jpg;.jpeg)|*.png;*.jpg;*.jpeg|Все файлы|*.*";
             openImgDialog.Multiselect = false;
+            openImgDialog.InitialDirectory = System.IO.Directory.GetCurrentDirectory();
 
             if (openImgDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
