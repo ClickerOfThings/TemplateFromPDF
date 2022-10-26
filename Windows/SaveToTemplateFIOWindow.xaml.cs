@@ -8,11 +8,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TemplateFromPDF.Model;
+using MessageBox = System.Windows.MessageBox;
 
 namespace TemplateFromPDF.Windows
 {
@@ -37,11 +39,20 @@ namespace TemplateFromPDF.Windows
 
         private void SaveToTemplatesButton_Click(object sender, RoutedEventArgs e)
         {
-            string folderPath = SaveFolderPathTextBox.Text.Trim();
+            string folderPath = SaveFolderPathTextBox.Text.Trim(),
+                   templateImgFilename = TemplateImageFileTextBox.Text.Trim();
 
-            if (string.IsNullOrEmpty(folderPath))
+            if (string.IsNullOrEmpty(folderPath)
+                || string.IsNullOrEmpty(templateImgFilename))
             {
-                MessageBox.Show("Не введен путь к папке.",
+                MessageBox.Show("Введены не все данные. Для работы программы необходимо внести все данные в окне.",
+                    "Ошибка создания", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!System.IO.File.Exists(templateImgFilename))
+            {
+                MessageBox.Show("Указанный файл изображения-шаблона не найден.",
                     "Ошибка создания", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -49,7 +60,8 @@ namespace TemplateFromPDF.Windows
             int fileCounter = 0;
             foreach (PDFFile file in pdfFilesToSave)
             {
-                file.SaveFieldsToTemplate("сертификат.png",
+
+                file.SaveFieldsToTemplate(templateImgFilename,
                     PDFFile.DEFAULT_TOP_MARGIN, PDFFile.DEFAULT_SIDES_MARGIN,
                     PDFFile.DEFAULT_PARAGRAPH_WRAPS,
                     $"{folderPath}/{file.Fields["Фамилия Имя Отчество"]}-{fileCounter++}.pdf");
@@ -69,6 +81,18 @@ namespace TemplateFromPDF.Windows
 
             if (folderChooseDialog.ShowDialog() == CommonFileDialogResult.Ok)
                 SaveFolderPathTextBox.Text = folderChooseDialog.FileName;
+        }
+
+        private void BrowseImageTemplateButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openImgDialog = new OpenFileDialog();
+            openImgDialog.Filter = "Файлы изображений (.png;.jpg;.jpeg)|*.png;*.jpg;*.jpeg|Все файлы|*.*";
+            openImgDialog.Multiselect = false;
+
+            if (openImgDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                TemplateImageFileTextBox.Text = openImgDialog.FileName;
+            }
         }
     }
 }

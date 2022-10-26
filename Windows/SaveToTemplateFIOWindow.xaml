@@ -11,25 +11,43 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.Row="0">
-            <TextBlock Text="Путь к папке, куда сохранятся шаблоны"
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Путь к папке, куда сохранятся шаблоны"
                        DockPanel.Dock="Top"/>
-            <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
-                <Button x:Name="BrowseSaveFolderButton" Content="..."
+                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                    <Button x:Name="BrowseSaveFolderButton" Content="..."
                         Click="BrowseSaveFolderButton_Click"
                         DockPanel.Dock="Right"
                         Margin="0" MinWidth="20">
-                    <Button.Resources>
-                        <Style TargetType="Border"/>
-                        <!-- Сбрасывает глобальный стиль закруглённой кнопки -->
-                    </Button.Resources>
-                </Button>
-                <TextBox x:Name="SaveFolderPathTextBox"
+                        <Button.Resources>
+                            <Style TargetType="Border"/>
+                            <!-- Сбрасывает глобальный стиль закруглённой кнопки -->
+                        </Button.Resources>
+                    </Button>
+                    <TextBox x:Name="SaveFolderPathTextBox"
                      DockPanel.Dock="Left"/>
-            </DockPanel>
+                </DockPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Файл изображения-шаблона"/>
+                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                    <Button x:Name="BrowseImageTemplateButton" Content="..."
+                        Click="BrowseImageTemplateButton_Click"
+                        DockPanel.Dock="Right"
+                        Margin="0" MinWidth="20">
+                        <Button.Resources>
+                            <Style TargetType="Border"/>
+                            <!-- Сбрасывает глобальный стиль закруглённой кнопки -->
+                        </Button.Resources>
+                    </Button>
+                    <TextBox x:Name="TemplateImageFileTextBox"
+                     DockPanel.Dock="Left"/>
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
 
         <DockPanel LastChildFill="False" Grid.Row="2">

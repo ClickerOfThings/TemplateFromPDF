@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+﻿using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TemplateFromPDF.Model;
+using MessageBox = System.Windows.MessageBox;
 
 namespace TemplateFromPDF.Windows
 {
@@ -45,7 +46,7 @@ namespace TemplateFromPDF.Windows
             openPDFDialog.Filter = "PDF файлы (.pdf)|*.pdf";
             openPDFDialog.Multiselect = true;
 
-            if (openPDFDialog.ShowDialog() is true)
+            if (openPDFDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string[] selectedFiles = openPDFDialog.FileNames;
                 if (selectedFiles.Length == 0)
