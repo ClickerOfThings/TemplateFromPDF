@@ -23,21 +23,6 @@ namespace TemplateFromPDF.Windows
     {
         private readonly List<PDFFile> pdfFilesToSave;
 
-        private static readonly iText.Kernel.Colors.Color DEFAULT_COLOR = new iText.Kernel.Colors.DeviceRgb(138, 83, 10);
-        private static readonly ParagraphWrap[] DEFAULT_PARAGRAPH_WRAPS = new ParagraphWrap[]
-        {
-            new ParagraphWrap{ TextWithFieldsFormatted = "О ПУБЛИКАЦИИ СТАТЬИ", Color = DEFAULT_COLOR, FontSize = 15},
-            new ParagraphWrap{ TextWithFieldsFormatted = "{Название статьи}", Color = DEFAULT_COLOR, IsBold = true},
-            new ParagraphWrap{ TextWithFieldsFormatted = "{Выберите издание}", Color = DEFAULT_COLOR, FontSize = 15},
-            new ParagraphWrap{ TextWithFieldsFormatted = "выдано", Color = DEFAULT_COLOR},
-            new ParagraphWrap{ TextWithFieldsFormatted = "{Фамилия Имя Отчество}", Color = DEFAULT_COLOR, IsBold = true },
-            new ParagraphWrap{ TextWithFieldsFormatted = "{Должность}", Color = DEFAULT_COLOR, IsBold = true, FontSize = 15 },
-            new ParagraphWrap{ TextWithFieldsFormatted = "{Учебное заведение} {Населённый пункт}", Color = DEFAULT_COLOR, FontSize = 15 },
-        };
-        private const string DEFAULT_TEMPLATE_IMAGE_FILENAME = "сертификат.png";
-        private const float DEFAULT_TOP_MARGIN = 220f;
-        private const float DEFAULT_SIDES_MARGIN = 250f;
-
         public SaveToTemplateFIOWindow(List<PDFFile> pdfFilesToSave)
         {
             InitializeComponent();
@@ -64,9 +49,9 @@ namespace TemplateFromPDF.Windows
             int fileCounter = 0;
             foreach (PDFFile file in pdfFilesToSave)
             {
-                file.SaveFieldsToTemplate(DEFAULT_TEMPLATE_IMAGE_FILENAME,
-                    DEFAULT_TOP_MARGIN, DEFAULT_SIDES_MARGIN,
-                    DEFAULT_PARAGRAPH_WRAPS,
+                file.SaveFieldsToTemplate("сертификат.png",
+                    PDFFile.DEFAULT_TOP_MARGIN, PDFFile.DEFAULT_SIDES_MARGIN,
+                    PDFFile.DEFAULT_PARAGRAPH_WRAPS,
                     $"{folderPath}/{file.Fields["Фамилия Имя Отчество"]}-{fileCounter++}.pdf");
             }
 

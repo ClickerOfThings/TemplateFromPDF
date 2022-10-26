@@ -28,6 +28,21 @@ namespace TemplateFromPDF.Model
     {
         private const string DEFAULT_FONT = "/Fonts/FreeSans-LrmZ.ttf";
 
+        public static readonly iText.Kernel.Colors.Color DEFAULT_COLOR = new iText.Kernel.Colors.DeviceRgb(138, 83, 10);
+        public static readonly ParagraphWrap[] DEFAULT_PARAGRAPH_WRAPS = new ParagraphWrap[]
+        {
+            new ParagraphWrap{ TextWithFieldsFormatted = "ПОДТВЕРЖДАЕТ, ЧТО", Color = DEFAULT_COLOR, FontSize = 15},
+            new ParagraphWrap{ TextWithFieldsFormatted = "{Фамилия Имя Отчество}", Color = DEFAULT_COLOR, IsBold = true},
+            new ParagraphWrap{ TextWithFieldsFormatted = "{Должность}", Color = DEFAULT_COLOR, IsBold = true, FontSize = 15 },
+            new ParagraphWrap{ TextWithFieldsFormatted = "{Учебное заведение} {Населённый пункт}", Color = DEFAULT_COLOR, FontSize = 15 },
+            new ParagraphWrap{ TextWithFieldsFormatted = "ОПУБЛИКОВАЛ(А) СТАТЬЮ", Color = DEFAULT_COLOR, AfterSpacingMultiplier = 1.2f},
+            new ParagraphWrap{ TextWithFieldsFormatted = "{Название статьи}", Color = DEFAULT_COLOR, IsBold = true, AfterSpacingMultiplier = 1.2f},
+            new ParagraphWrap{ TextWithFieldsFormatted = "{Выберите издание}", Color = DEFAULT_COLOR, FontSize = 15},
+        };
+        //public const string DEFAULT_TEMPLATE_IMAGE_FILENAME = "сертификат.png";
+        public const float DEFAULT_TOP_MARGIN = 220f;
+        public const float DEFAULT_SIDES_MARGIN = 250f;
+
         /// <summary>
         /// Словарь полей, полученных из PDF файла
         /// </summary>
